@@ -328,6 +328,16 @@ impl TcpStream {
         self.inner.nodelay()
     }
 
+    #[cfg(target_os = "linux")]
+    pub fn set_quickack(&self, quickack: bool) -> io::Result<()> {
+        self.inner.set_quickack(quickack)
+    }
+
+    #[cfg(target_os = "linux")]
+    pub fn quickack(&self) -> io::Result<bool> {
+        self.inner.quickack()
+    }
+
     pub fn set_ttl(&self, ttl: u32) -> io::Result<()> {
         setsockopt(&self.inner, c::IPPROTO_IP, c::IP_TTL, ttl as c_int)
     }
